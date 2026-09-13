@@ -2,7 +2,9 @@
 'use strict';
 
 var SELLER='fuckdiscomfi';
+var MANAGER='komatozzkill';
 var TG='https://t.me/'+SELLER;
+var TG_MANAGER='https://t.me/'+MANAGER;
 
 var PRICE={2013:{p:null,l:'уточнять в ЛС'},2014:{p:950,l:'от 950 ₽'},2015:{p:850,l:'от 850 ₽'},2016:{p:750,l:'от 750 ₽'},2017:{p:650,l:'от 650 ₽'},2018:{p:550,l:'от 550 ₽'},2019:{p:450,l:'от 450 ₽'},2020:{p:375,l:'от 375 ₽'},2021:{p:300,l:'от 300 ₽'},2022:{p:250,l:'от 250 ₽'},2023:{p:200,l:'от 200 ₽'},2024:{p:150,l:'от 150 ₽'},2025:{p:100,l:'от 100 ₽'},2026:{p:75,l:'от 75 ₽'}};
 var YEARS=Object.keys(PRICE).map(Number).sort(function(a,b){return a-b});
@@ -34,7 +36,6 @@ function tgLink(t){return t?TG+'?text='+encodeURIComponent(t):TG}
 function tgBuy(c,code,y){return tgLink('Привет, хочу купить аккаунт '+c+' ('+code+'), отлега '+y)}
 function tgSpecial(){return tgLink('Привет, хочу сменить номер')}
 
-/* ============ РОУТЕР ============ */
 var routes={
   '/':renderHome,
   '/catalog':renderCatalog,
@@ -58,13 +59,11 @@ function navigate(){
 
 window.addEventListener('hashchange',navigate);
 
-/* ============ ХЕДЕР ============ */
 function initHeader(){
   var hdr=$('#hdr');
   window.addEventListener('scroll',function(){
     hdr.classList.toggle('scrolled',window.scrollY>10);
   },{passive:true});
-
   var burger=$('#burger'),nav=$('#nav');
   if(burger){
     burger.addEventListener('click',function(){
@@ -74,19 +73,23 @@ function initHeader(){
   }
 }
 
-/* ============ СТРАНИЦА: ГЛАВНАЯ ============ */
 function renderHome(){
   var p=el('div',{class:'page'});
   var wrap=el('div',{class:'wrap'});
 
-  // HERO
   var hero=el('section',{class:'hero'});
   hero.appendChild(el('h1',{class:'hero-title',html:'DISCOMFI <span class="grad">MARKET</span>'}));
   hero.appendChild(el('p',{class:'hero-sub',text:'Премиальные Telegram аккаунты с отлегой. 243 страны. Отлега 2013–2026. Быстро, надёжно, конфиденциально.'}));
+
   var actions=el('div',{class:'hero-actions'});
   actions.appendChild(el('a',{class:'btn btn-primary btn-lg',href:'#/catalog',text:'Смотреть каталог'}));
   actions.appendChild(el('a',{class:'btn btn-glass btn-lg',href:TG,target:'_blank',rel:'noopener',text:'Написать в Telegram'}));
   hero.appendChild(actions);
+
+  var manager=el('div',{class:'hero-manager'});
+  manager.appendChild(el('span',{class:'hero-manager-label',text:'Менеджер:'}));
+  manager.appendChild(el('a',{class:'hero-manager-link',href:TG_MANAGER,target:'_blank',rel:'noopener',text:'@'+MANAGER}));
+  hero.appendChild(manager);
 
   var stats=el('div',{class:'hero-stats'});
   [
@@ -103,7 +106,6 @@ function renderHome(){
   hero.appendChild(stats);
   wrap.appendChild(hero);
 
-  // КАК ЭТО РАБОТАЕТ
   var sec=el('section',{class:'section'});
   sec.appendChild(el('div',{class:'section-head',html:'<h2 class="h2">Как это работает</h2><p class="sub">Четыре шага от выбора до получения аккаунта</p>'}));
   var steps=el('div',{class:'steps'});
@@ -126,7 +128,6 @@ function renderHome(){
   return p;
 }
 
-/* ============ СТРАНИЦА: FAQ ============ */
 function renderFAQ(){
   var p=el('div',{class:'page'});
   var wrap=el('div',{class:'wrap'});
@@ -140,10 +141,10 @@ function renderFAQ(){
   [
     {q:'Что такое отлега?',a:'Отлега — это возраст аккаунта. Аккаунт 2013 года зарегистрирован в 2013 году и имеет 12+ лет истории. Чем старше аккаунт, тем он ценнее, надёжнее и дороже.'},
     {q:'Как происходит покупка?',a:'Выбираете страну и отлегу в каталоге, нажимаете «Купить». Открывается Telegram с готовым сообщением продавцу. Продавец подтверждает наличие, вы оплачиваете, получаете данные аккаунта.'},
-    {q:'Какие способы оплаты?',a:'Все детали оплаты обсуждаются напрямую с продавцом в Telegram — @fuckdiscomfi. Поддерживаются криптовалюты и другие удобные вам способы.'},
-    {q:'Как быстро я получу аккаунт?',a:'Обычно в течение 5–15 минут после подтверждения оплаты. В редких случаях — до часа, если продавец занят.'},
-    {q:'Есть ли гарантия?',a:'Да. Если аккаунт не работает или не соответствует заявленной отлеге — продавец заменит его или вернёт средства. Все вопросы решаются в Telegram.'},
-    {q:'Как связаться с продавцом?',a:'Telegram: @fuckdiscomfi. Отвечаем 24/7, обычно в течение нескольких минут.'}
+    {q:'Какие способы оплаты?',a:'Все детали оплаты обсуждаются напрямую с менеджером в Telegram — @komatozzkill. Поддерживаются криптовалюты и другие удобные вам способы.'},
+    {q:'Как быстро я получу аккаунт?',a:'Обычно в течение 5–15 минут после подтверждения оплаты. В редких случаях — до часа, если менеджер занят.'},
+    {q:'Есть ли гарантия?',a:'Да. Если аккаунт не работает или не соответствует заявленной отлеге — менеджер заменит его или вернёт средства. Все вопросы решаются в Telegram.'},
+    {q:'Как связаться с менеджером?',a:'Telegram: @komatozzkill. Отвечаем 24/7, обычно в течение нескольких минут.'}
   ].forEach(function(f){
     var item=el('div',{class:'faq-item'});
     var q=el('button',{class:'faq-q'});
@@ -171,7 +172,6 @@ function renderFAQ(){
   return p;
 }
 
-/* ============ СТРАНИЦА: КОНТАКТЫ ============ */
 function renderContacts(){
   var p=el('div',{class:'page'});
   var wrap=el('div',{class:'wrap'});
@@ -184,49 +184,76 @@ function renderContacts(){
   var card=el('div',{class:'contact-card'});
   card.appendChild(el('div',{class:'contact-avatar',text:'DM'}));
   card.appendChild(el('div',{class:'contact-name',text:'Discomfi Market'}));
-  card.appendChild(el('div',{class:'contact-handle',text:'@fuckdiscomfi'}));
-  card.appendChild(el('a',{class:'btn btn-primary btn-lg',href:TG,target:'_blank',rel:'noopener',text:'Открыть Telegram'}));
+  card.appendChild(el('div',{class:'contact-handle',text:'@'+MANAGER}));
+  card.appendChild(el('a',{class:'btn btn-primary btn-lg',href:TG_MANAGER,target:'_blank',rel:'noopener',text:'Открыть Telegram'}));
   card.appendChild(el('p',{class:'contact-note',text:'По любым вопросам — покупка, гарантия, консультация'}));
   wrap.appendChild(card);
 
   p.appendChild(wrap);
   return p;
 }
-/* ============ СТРАНИЦА: КАТАЛОГ ============ */
+
 var state={country:'',year:'',sort:null,seed:Date.now()};
 
 function renderCatalog(){
   var p=el('div',{class:'page'});
   var wrap=el('div',{class:'wrap'});
 
-  // Заголовок
   var hdr=el('div',{class:'page-header'});
   hdr.appendChild(el('h1',{class:'page-title',html:'Каталог <span class="grad">аккаунтов</span>'}));
   hdr.appendChild(el('p',{class:'page-sub',text:'Выберите страну и отлегу, чтобы увидеть доступные аккаунты'}));
   wrap.appendChild(hdr);
 
-  // Фильтр
   var bar=el('div',{class:'filter-bar'});
 
-  // Поиск
   var fSearch=el('div',{class:'field'});
   fSearch.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
   var inp=el('input',{type:'text',placeholder:'Поиск страны или кода…',value:state.country});
   fSearch.appendChild(inp);
   bar.appendChild(fSearch);
 
-  // Страна
-  var fCountry=el('div',{class:'field'});
-  var selC=el('select');
-  selC.appendChild(el('option',{value:'',text:'Все страны'}));
-  COUNTRIES.forEach(function(c){
-    selC.appendChild(el('option',{value:c.n,text:c.c+' '+c.n}));
+  var fCountry=el('div',{class:'field field-dd'});
+  var ddBtn=el('button',{class:'dd-btn',type:'button'});
+  ddBtn.appendChild(el('span',{class:'dd-value',text:state.country||'Все страны'}));
+  ddBtn.appendChild(el('span',{class:'dd-arrow',html:'<svg width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l5 5 5-5"/></svg>'}));
+  fCountry.appendChild(ddBtn);
+
+  var ddList=el('div',{class:'dd-list'});
+  var ddSearch=el('input',{class:'dd-search',type:'text',placeholder:'Поиск страны…'});
+  ddList.appendChild(ddSearch);
+  var ddItems=el('div',{class:'dd-items'});
+  ddList.appendChild(ddItems);
+  fCountry.appendChild(ddList);
+
+  var ddValue=ddBtn.querySelector('.dd-value');
+
+  function renderDD(filter){
+    ddItems.innerHTML='';
+    var all=el('div',{class:'dd-item'+(state.country===''?' active':''),text:'Все страны'});
+    all.addEventListener('click',function(){state.country='';state.seed=Date.now();closeDD();rebuild()});
+    ddItems.appendChild(all);
+
+    var f=(filter||'').toLowerCase();
+    COUNTRIES.forEach(function(c){
+      if(f && c.n.toLowerCase().indexOf(f)===-1 && c.c.indexOf(f)===-1)return;
+      var it=el('div',{class:'dd-item'+(state.country===c.n?' active':''),text:c.c+' · '+c.n});
+      it.addEventListener('click',function(){state.country=c.n;state.seed=Date.now();closeDD();rebuild()});
+      ddItems.appendChild(it);
+    });
+  }
+  function openDD(){fCountry.classList.add('open');ddSearch.value='';renderDD('');setTimeout(function(){ddSearch.focus()},60)}
+  function closeDD(){fCountry.classList.remove('open')}
+  ddBtn.addEventListener('click',function(e){
+    e.stopPropagation();
+    if(fCountry.classList.contains('open'))closeDD();else openDD();
   });
-  selC.value=state.country;
-  fCountry.appendChild(selC);
+  ddSearch.addEventListener('input',function(){renderDD(ddSearch.value)});
+  document.addEventListener('click',function(e){
+    if(!fCountry.contains(e.target))closeDD();
+  });
+  renderDD('');
   bar.appendChild(fCountry);
 
-  // Отлега
   var fYear=el('div',{class:'field'});
   var selY=el('select');
   selY.appendChild(el('option',{value:'',text:'Все отлеги'}));
@@ -237,7 +264,6 @@ function renderCatalog(){
   fYear.appendChild(selY);
   bar.appendChild(fYear);
 
-  // Кнопки сортировки
   var acts=el('div',{class:'filter-actions'});
   var sUp=el('button',{class:'sort-btn'+(state.sort==='asc'?' active':''),title:'Сначала дешёвые'});
   sUp.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 19V5M5 12l7 7 7-7"/></svg>';
@@ -253,29 +279,24 @@ function renderCatalog(){
   acts.appendChild(sUp);acts.appendChild(sDown);acts.appendChild(sReset);
   bar.appendChild(acts);
 
-  // События фильтра
   var debTimer;
   inp.addEventListener('input',function(){
     clearTimeout(debTimer);
     debTimer=setTimeout(function(){state.country=inp.value;state.seed=Date.now();rebuild()},300);
   });
-  selC.addEventListener('change',function(){state.country=selC.value;state.seed=Date.now();rebuild()});
   selY.addEventListener('change',function(){state.year=selY.value;state.seed=Date.now();rebuild()});
 
   wrap.appendChild(bar);
 
-  // Заголовок каталога
   var ch=el('div',{class:'catalog-head'});
   ch.appendChild(el('h2',{class:'catalog-title',text:'Доступные аккаунты'}));
   var meta=el('div',{class:'catalog-meta'});
   ch.appendChild(meta);
   wrap.appendChild(ch);
 
-  // Сетка
   var grid=el('div',{class:'cards'});
   wrap.appendChild(grid);
 
-  // Спец. карточка — смена номера
   var sp=el('div',{class:'special-card'});
   sp.appendChild(el('div',{class:'special-icon',html:'🔄'}));
   var spB=el('div',{class:'special-body'});
@@ -290,11 +311,8 @@ function renderCatalog(){
 
   p.appendChild(wrap);
 
-  // Функция пересборки
   function rebuild(){
-    // Синхронизируем фильтры
-    if(inp.value!==state.country)inp.value=state.country;
-    if(selC.value!==state.country)selC.value=state.country;
+    if(ddValue)ddValue.textContent=state.country||'Все страны';
     if(selY.value!==state.year)selY.value=state.year;
     sUp.classList.toggle('active',state.sort==='asc');
     sDown.classList.toggle('active',state.sort==='desc');
@@ -334,7 +352,6 @@ function buildList(){
     });
   });
 
-  // Сортировка
   if(state.sort==='asc'){
     list.sort(function(a,b){
       var pa=PRICE[a.year].p==null?Infinity:PRICE[a.year].p;
@@ -348,7 +365,6 @@ function buildList(){
       return pb-pa;
     });
   }else{
-    // Рандом — но стабильный в рамках seed
     var seeded=shuffle(list.slice(0,300));
     list=seeded.concat(list.slice(300));
   }
@@ -358,7 +374,7 @@ function buildList(){
 function makeCard(item,idx){
   var c=item.country,y=item.year,pr=PRICE[y];
   var card=el('div',{class:'card'});
-  card.style.animationDelay=(Math.min(idx,20)*20)+'ms';
+  card.style.animationDelay=(Math.min(idx,20)*25)+'ms';
 
   var top=el('div',{class:'card-top'});
   top.appendChild(el('div',{class:'card-flag',text:c.f||'🌍'}));
@@ -382,16 +398,11 @@ function makeCard(item,idx){
 
   return card;
 }
-/* ============ ИНИЦИАЛИЗАЦИЯ ============ */
+
 function init(){
-  // Год в футере
   var yr=$('#yr');
   if(yr)yr.textContent=new Date().getFullYear();
-
-  // Хедер
   initHeader();
-
-  // Роутинг
   if(!location.hash)location.hash='#/';
   navigate();
 }
