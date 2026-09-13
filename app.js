@@ -208,13 +208,13 @@ function renderCatalog(){
 
   var fSearch=el('div',{class:'field'});
   fSearch.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
-  var inp=el('input',{type:'text',placeholder:'Поиск страны или кода…',value:state.country});
+  var inp=el('input',{type:'text',placeholder:'Поиск…',value:state.country});
   fSearch.appendChild(inp);
   bar.appendChild(fSearch);
 
   var fCountry=el('div',{class:'field field-dd'});
   var ddBtn=el('button',{class:'dd-btn',type:'button'});
-  ddBtn.appendChild(el('span',{class:'dd-value',text:state.country||'Все страны'}));
+  ddBtn.appendChild(el('span',{class:'dd-value',text:state.country||'Страна'}));
   ddBtn.appendChild(el('span',{class:'dd-arrow',html:'<svg width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l5 5 5-5"/></svg>'}));
   fCountry.appendChild(ddBtn);
 
@@ -254,14 +254,40 @@ function renderCatalog(){
   renderDD('');
   bar.appendChild(fCountry);
 
-  var fYear=el('div',{class:'field'});
-  var selY=el('select');
-  selY.appendChild(el('option',{value:'',text:'Все отлеги'}));
-  YEARS.forEach(function(y){
-    selY.appendChild(el('option',{value:String(y),text:String(y)}));
+  var fYear=el('div',{class:'field field-dd'});
+  var ydBtn=el('button',{class:'dd-btn',type:'button'});
+  ydBtn.appendChild(el('span',{class:'dd-value',text:state.year||'Отлега'}));
+  ydBtn.appendChild(el('span',{class:'dd-arrow',html:'<svg width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1l5 5 5-5"/></svg>'}));
+  fYear.appendChild(ydBtn);
+
+  var ydList=el('div',{class:'dd-list'});
+  var ydItems=el('div',{class:'dd-items'});
+  ydList.appendChild(ydItems);
+  fYear.appendChild(ydList);
+
+  var ydValue=ydBtn.querySelector('.dd-value');
+
+  function renderYD(){
+    ydItems.innerHTML='';
+    var all=el('div',{class:'dd-item'+(state.year===''?' active':''),text:'Все отлеги'});
+    all.addEventListener('click',function(){state.year='';state.seed=Date.now();closeYD();rebuild()});
+    ydItems.appendChild(all);
+    YEARS.forEach(function(y){
+      var it=el('div',{class:'dd-item'+(state.year===String(y)?' active':''),text:String(y)});
+      it.addEventListener('click',function(){state.year=String(y);state.seed=Date.now();closeYD();rebuild()});
+      ydItems.appendChild(it);
+    });
+  }
+  function openYD(){fYear.classList.add('open');renderYD()}
+  function closeYD(){fYear.classList.remove('open')}
+  ydBtn.addEventListener('click',function(e){
+    e.stopPropagation();
+    if(fYear.classList.contains('open'))closeYD();else openYD();
   });
-  selY.value=state.year;
-  fYear.appendChild(selY);
+  document.addEventListener('click',function(e){
+    if(!fYear.contains(e.target))closeYD();
+  });
+  renderYD();
   bar.appendChild(fYear);
 
   var acts=el('div',{class:'filter-actions'});
@@ -284,7 +310,6 @@ function renderCatalog(){
     clearTimeout(debTimer);
     debTimer=setTimeout(function(){state.country=inp.value;state.seed=Date.now();rebuild()},300);
   });
-  selY.addEventListener('change',function(){state.year=selY.value;state.seed=Date.now();rebuild()});
 
   wrap.appendChild(bar);
 
@@ -312,8 +337,8 @@ function renderCatalog(){
   p.appendChild(wrap);
 
   function rebuild(){
-    if(ddValue)ddValue.textContent=state.country||'Все страны';
-    if(selY.value!==state.year)selY.value=state.year;
+    if(ddValue)ddValue.textContent=state.country||'Страна';
+    if(ydValue)ydValue.textContent=state.year||'Отлега';
     sUp.classList.toggle('active',state.sort==='asc');
     sDown.classList.toggle('active',state.sort==='desc');
 
